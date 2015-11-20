@@ -1,0 +1,71 @@
+﻿http://www.runoob.com/python/python-mysql.html
+
+https连接，当证书有问题时python连接问题
+
+req_http_get = httplib.HTTPSConnection("192.168.4.243", "443")
+出现错误：
+  File "/usr/lib/python2.7/ssl.py", line 788, in do_handshake
+    self._sslobj.do_handshake()
+SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:581)
+
+添加：
+req_http_get = httplib.HTTPSConnection("192.168.4.243", "443", context=ssl._create_unverified_context())
+
+正确运行
+解释：
+https://docs.python.org/2/library/httplib.html#httplib.HTTPSConnection
+
+
+
+Python中文转换url编码的实际操作步骤介绍
+http://developer.51cto.com/art/201003/190800.htm
+http://www.nowamagic.net/academy/detail/1302863
+
+
+Json概述以及python对json的相关操作
+http://www.cnblogs.com/coser/archive/2011/12/14/2287739.html
+
+[Python] 控制台输入密码的方法
+http://www.cnblogs.com/lovebread/archive/2010/11/09/1872774.html
+
+
+Python操作MySQL以及中文乱码的问题
+http://blog.csdn.net/foyuan/article/details/1711100
+http://blog.csdn.net/kongxx/article/details/7094018
+
+python 字符串，元组， 列表，字典之间的转换
+http://www.cnblogs.com/tobeprogramer/p/3982417.html
+python关于列表转为字典的两个小方法 
+http://blog.chinaunix.net/uid-29127275-id-3972440.html
+Python实现字典的key和values的交换，pythonvalues
+http://www.bkjia.com/Pythonjc/1042743.html
+python数据类型转换（str跟int的转换）
+http://blog.csdn.net/shanliangliuxing/article/details/7920400
+
+python list之append和extend的区别
+http://blog.csdn.net/cain/article/details/6573085
+
+每天一个linux命令（61）：wget命令
+http://www.cnblogs.com/peida/archive/2013/03/18/2965369.html
+解决wget下载文件名乱码的一些方法
+http://blog.csdn.net/xyw_blog/article/details/10475949
+
+reference: http://m13253.blogspot.tw/2013/04/solve-corrupted-chinese-filename-for-wget.html
+
+其实不必要像那样修改源代码，wget 的 man 页面里就有解决方法。
+正解是参数 --restrict-file-names=nocontrol
+Update: +筱百合 提供了他的 ~/.wgetrc 文件，方便大家借鉴：
+
+    # 不要乱转义中文
+    --restrict-file-names=nocontrol
+    # 使用重定向后的文件名
+    --trust-server-names=on
+    --content-disposition=on
+
+wget http://192.168.4.240/rule/build/ips201511119182449.rules -O -
+wget --restrict-file-names=nocontrol http://192.168.4.240/pkt/up/"木马上传用户信息(TrojanDownloader.Banload.a.Topsec).123pcap" -N
+wget http://192.168.4.240/pkt/up/"木马上传用户信息(TrojanDownloader.Banload.a.Topsec).pcap" -nc
+
+-N 比对是否为最新 -nc 比对文件名
+-O - 输出到终端 
+
