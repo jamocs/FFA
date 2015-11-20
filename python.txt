@@ -39,6 +39,7 @@ python关于列表转为字典的两个小方法
 http://blog.chinaunix.net/uid-29127275-id-3972440.html
 Python实现字典的key和values的交换，pythonvalues
 http://www.bkjia.com/Pythonjc/1042743.html
+还有一个是提取字典中的键或者值，组成元组
 python数据类型转换（str跟int的转换）
 http://blog.csdn.net/shanliangliuxing/article/details/7920400
 
