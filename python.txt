@@ -70,3 +70,5 @@ wget http://192.168.4.240/pkt/up/"木马上传用户信息(TrojanDownloader.Banl
 -N 比对是否为最新 -nc 比对文件名
 -O - 输出到终端 
 
+字符编码问题
+http://www.cnblogs.com/huxi/articles/1897271.html
