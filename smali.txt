@@ -1,0 +1,80 @@
+分类：手机-android
+
+Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。其语法是一种宽松式的Jasmin/dedexer语法，而且它实现了.dex格式所有功能（注解，调试信息，线路信息等）。Smali，Baksmali分别是冰岛语中编译器，反编译器的叫法。也许你会问为什么是冰岛语呢，因为Dalvik是一个冰岛渔村名字。
+
+原始类型
+V void (只能用于返回值类型)
+Z boolean
+B byte
+S short
+C char
+I int
+J long（64）
+F float
+D Double（64）
+
+对象类型
+Lpackage/name/ObjectName; 相当于java中的package.name.ObjectName
+L 表示这是一个对象类型
+package/name 该对象所在的包
+ObjectName 对象名称
+; 标识对象名称的结束
+
+数组的表示
+[I 表示一个int型的一维数组，相当于int[]；
+增加一个维度增加一个[,如[[I表示int[][]
+数组每一个维度最多255个;
+对象数组表示也是类似，如String数组的表示是[Ljava/lang/String
+
+寄存器有两个名字，一个是v，另一个是p。p的意思是parameter，即参数。我们继续foo(int i, int j)这个例子，仍假设该函数
+使用5个寄存器，那么寄存器情况如下：
+
+寄存器
+.registers 使用这个指令指定方法中寄存器的总数
+.locals 使用这个指定表明方法中非参寄存器的总数，放在方法的第一行。
+
+v0  ----- the first local register
+v1  ----- the second local register
+v2/p0 ----- the first parameter register（this）
+v3/p1----- the second parameter register
+v4/p2----- the third parameter reigster
+当然，如果是静态方法的话就只有5个寄存器了，不需要存this了。
+
+添加p名称寄存器的意义
+
+如果函数使用n名称：假设某个函数使用了若干个寄存器，而黑客想注入一些别的代码到该函数中，黑客发现他必须额外添加
+函数使用的寄存器个数来达到目的。添加寄存器数量意味着函数内所有的参数寄存器都将无效，因为函数调用使用的是最后几
+个寄存器作为传参寄存器的。
+
+如果函数采用p名称：此时如果要修改函数，仅需要添加寄存器个数即可。
+
+可以使用-p或-no-parameter-registers来强制生成使用n寄存器名来完成函数。默认使用p寄存器。
+
+方法
+方法声明
+methodName(III)Lpackage/name/ObjectName;
+smali通过上述格式来表示方法声明，上面methodName表示方法名，III表示三个整形参数，Lpackage/name/ObjectName;表示返回值的类型。
+举个例子：
+method(I[[ILjava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+这个函数是：
+String method(int , int[][], String, Object[])
+
+字段
+Lpackage/name/ObjectName;——>FieldName:Ljava/lang/String;
+Lpackage/name/ObjectName;表示包名
+FieldName表示字段
+Ljava/lang/String;表示字段的类型
+
+类中成员
+声明
+.field private name:Lpackage/name/ObjectName;
+.field表示开头
+private 共有 私有 保护
+name表示变量名
+Lpackage/name/ObjectName;变量的类型
+比如：private TextView mTextView;表示就是
+.field private mTextView:Landroid/widget/TextView;
+private int mCount;
+.field private mCount:I
+
+
