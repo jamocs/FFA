@@ -1,0 +1,29 @@
+安装pip
+apt-get update
+apt-cache search pip
+apt-cache search pip | grep python
+apt-get install python-pip
+pip -V
+
+安装virtualenv
+pip install virtualenv # 出错，从报错看应该是软件源被墙了
+pip install virtualenv -i http://pypi.douban.com/simple # 手动添加安装源
+
+运行virtualenv
+virtualenv spider_env
+virtualenv spider_env --no-site-packages  #不依赖系统的package
+
+source ./bin/activate
+deactivate
+
+在env环境中安装requests库：
+pip install requests
+报错：Could not fetch URL https://pypi.python.org/simple/requests/: There was a problem confirming the ssl certificate: [Errno 2] No such file or directory - skipping
+解决：使用–trusted-host命令行选项
+如：pip install requests --trusted-host pypi.python.org
+
+在env环境中安装beautifulsoup库：
+pip install  beautifulsoup4  --trusted-host pypi.python.org
+
+headers = {'Accept-Language': 'zh-CN', 
+           'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'}

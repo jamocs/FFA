@@ -1,0 +1,45 @@
+/usr/local/etc/strongswan.conf
+/usr/local/etc/ipsec.secrets
+ps aux | grep ipsec
+ipsec start --nofork
+ipsec stop
+
+/usr/local/etc/strongswan.conf
+charon {
+        load_modular = yes
+        duplicheck.enable = no
+        compress = yes
+        plugins {
+                include strongswan.d/charon/*.conf
+        }
+        dns1 = 8.8.8.8
+        dns2 = 8.8.4.4
+        nbns1 = 8.8.8.8
+        nbns2 = 8.8.4.4
+
+
+/usr/local/etc/ipsec.secrets
+: RSA server.pem
+: PSK "myPSKkey"
+: XAUTH "myXAUTHPass"
+%any %any : EAP "myUserPass"
+xiao %any : EAP "qing"
+wen %any : EAP "nuan"
+
+
+
+Install new OS
+
+Operating system is currently being reinstalled, and it can take up to 15 minutes to complete.
+
+Once finished, you will receive an e-mail notification at c26@outlook.com
+
+You will need a new root password to access your VPS: 
+7yvJNbA47rzM
+
+New SSH Port: 
+28257
+
+
+
+openvzÖ÷»ú
