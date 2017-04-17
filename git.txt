@@ -12,29 +12,31 @@ print 'jin4:',companyInfo[17],'\t',companyInfo[16]
 print 'jin5:',companyInfo[19],'\t',companyInfo[18]
 
 
-$ cd ~/.ssh    //¼ì²é¼ÆËã»ússhÃÜÔ¿
-Èç¹ûÃ»ÓĞÌáÊ¾:No such file or directory ËµÃ÷Äã²»ÊÇµÚÒ»´ÎÊ¹ÓÃgit,Ö´ĞĞÏÂÃæµÄ²Ù×÷,ÇåÀíÔ­ÓĞsshÃÜÔ¿
+$ cd ~/.ssh    //æ£€æŸ¥è®¡ç®—æœºsshå¯†é’¥
+å¦‚æœæ²¡æœ‰æç¤º:No such file or directory è¯´æ˜ä½ ä¸æ˜¯ç¬¬ä¸€æ¬¡ä½¿ç”¨git,æ‰§è¡Œä¸‹é¢çš„æ“ä½œ,æ¸…ç†åŸæœ‰sshå¯†é’¥
 
  $ ls 
  config id_rsa id_rsa.pub known_hosts
  $ mkdir key_backup
  $ cp id_rsa* key_backup
  $ rm id_rsa*
-»ñµÃÃÜÔ¿£º
+è·å¾—å¯†é’¥ï¼š
 
-ssh-keygen -t rsa -C "defnngj@gmail.com"//ÌîĞ´emailµØÖ·£¬È»ºóÒ»Ö±¡°»Ø³µ¡±ok
-´ò¿ª±¾µØ..\.ssh\id_rsa.pubÎÄ¼ş¡£´ËÎÄ¼şÀïÃæÄÚÈİÎª¸Õ²ÅÉú³ÉÈËÃÜÔ¿¡£
+ssh-keygen -t rsa -C "defnngj@gmail.com"//å¡«å†™emailåœ°å€ï¼Œç„¶åä¸€ç›´â€œå›è½¦â€ok
+æ‰“å¼€æœ¬åœ°..\.ssh\id_rsa.pubæ–‡ä»¶ã€‚æ­¤æ–‡ä»¶é‡Œé¢å†…å®¹ä¸ºåˆšæ‰ç”Ÿæˆäººå¯†é’¥ã€‚
 
-4. µÇÂ½githubÏµÍ³¡£µã»÷ÓÒÉÏ½ÇµÄ Account Settings--->SSH Public keys ---> add another public keys
+4. ç™»é™†githubç³»ç»Ÿã€‚ç‚¹å‡»å³ä¸Šè§’çš„ Account Settings--->SSH Public keys ---> add another public keys
 
-°ÑÄã±¾µØÉú³ÉµÄÃÜÔ¿¸´ÖÆµ½ÀïÃæ£¨keyÎÄ±¾¿òÖĞ£©£¬ µã»÷ add key ¾ÍokÁË
+æŠŠä½ æœ¬åœ°ç”Ÿæˆçš„å¯†é’¥å¤åˆ¶åˆ°é‡Œé¢ï¼ˆkeyæ–‡æœ¬æ¡†ä¸­ï¼‰ï¼Œ ç‚¹å‡» add key å°±okäº†
 
-5. ½Ó×Å´ò¿ªgit £¬²âÊÔÁ¬½ÓÊÇ·ñ³É¹¦
+5. æ¥ç€æ‰“å¼€git ï¼Œæµ‹è¯•è¿æ¥æ˜¯å¦æˆåŠŸ
 
 $ ssh -T git@github.com
-Èç¹ûÌáÊ¾£ºHi defnngj You've successfully authenticated, but GitHub does not provide shell access. ËµÃ÷ÄãÁ¬½Ó³É¹¦ÁË
+å¦‚æœæç¤ºï¼šHi defnngj You've successfully authenticated, but GitHub does not provide shell access. è¯´æ˜ä½ è¿æ¥æˆåŠŸäº†
 
 
 
-
+star çš„ä½œç”¨æ˜¯æ”¶è—ï¼Œç›®çš„æ˜¯æ–¹ä¾¿ä»¥åæŸ¥æ‰¾ã€‚
+watch çš„ä½œç”¨æ˜¯å…³æ³¨ï¼Œç›®çš„æ˜¯ç­‰ä½œè€…æ›´æ–°çš„æ—¶å€™ï¼Œä½ å¯ä»¥æ”¶åˆ°é€šçŸ¥ã€‚
+fork çš„ä½œç”¨æ˜¯å‚ä¸ï¼Œç›®çš„æ˜¯ä½ å¢åŠ æ–°çš„å†…å®¹ï¼Œç„¶å Pull Requestï¼ŒæŠŠä½ çš„ä¿®æ”¹å’Œä¸»ä»“åº“åŸæ¥çš„å†…å®¹åˆå¹¶ã€‚
 
