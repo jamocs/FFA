@@ -1,0 +1,63 @@
+安装twilio：pip install twilio  
+1. 失败，更新软件源后成功：
+以Jessie为例, 编辑/etc/apt/sources.list文件, 在文件最前面添加以下条目(操作前请做好相应备份)
+
+deb http://mirrors.163.com/debian/ jessie main non-free contrib
+deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+参考：http://mirrors.163.com/.help/debian.html
+
+2. 错误：Failed building wheel for cryptography
+   解决：
+   apt-get install build-essential libssl-dev libffi-dev python-dev
+   pip install cryptography
+参考：http://stackoverflow.com/questions/35144550/how-to-install-cryptography-on-ubuntu
+
+twilio示例出现错误：requests.exceptions.SSLError: ("bad handshake: Error([('SSL routines', 'SSL3_GET_SERVER_CERTIFICATE', 'certificate verify failed')],)",)
+解决；
+1. 更新证书源后，无效
+pip uninstall -y certifi
+pip install certifi==2017.04.17
+用法：
+>>> import certifi
+
+>>> certifi.where()
+'/usr/local/lib/python2.7/site-packages/certifi/cacert.pem'
+2. twilio证书路径为：/home/xxx/ipython_env/lib/python2.7/site-packages/twilio/conf/cacert.pem
+通过替换上述方法一下载的证书，依然无效。
+3. 通过分析错误：
+Traceback (most recent call last):
+  File "twilio1.py", line 16, in <module>
+    body="hello")
+  File "/home/chang/ipython_env/local/lib/python2.7/site-packages/twilio/rest/api/v2010/account/message/__init__.py", line 78, in create
+    data=data,
+  File "/home/chang/ipython_env/local/lib/python2.7/site-packages/twilio/base/version.py", line 208, in create
+    allow_redirects=allow_redirects,
+  File "/home/chang/ipython_env/local/lib/python2.7/site-packages/twilio/base/version.py", line 48, in request
+    allow_redirects=allow_redirects
+  File "/home/chang/ipython_env/local/lib/python2.7/site-packages/twilio/base/domain.py", line 46, in request
+    allow_redirects=allow_redirects
+  File "/home/chang/ipython_env/local/lib/python2.7/site-packages/twilio/rest/__init__.py", line 112, in request
+    allow_redirects=allow_redirects
+  File "/home/chang/ipython_env/local/lib/python2.7/site-packages/twilio/http/http_client.py", line 40, in request
+    timeout=timeout,
+  File "/home/chang/ipython_env/local/lib/python2.7/site-packages/requests/sessions.py", line 609, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/chang/ipython_env/local/lib/python2.7/site-packages/requests/adapters.py", line 497, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: ("bad handshake: Error([('SSL routines', 'SSL3_GET_SERVER_CERTIFICATE', 'certificate verify failed')],)",)
+
+可以看到是requests库请求时证书出现认证失败：
+修改/home/chang/ipython_env/local/lib/python2.7/site-packages/twilio/http/http_client.py
+把session.verify = get_cert_file()修改为session.verify = False
+运行依旧出错，查找服务端，发现服务端要求证书认证，修改Account Settings中的SSL Certificate Validation，由ENABLED修改为DISABLED。
+重新运行示例，可以正常发送短信，但有一警告：InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings  InsecureRequestWarning
+
+使用证书失败问题，待研究。
+
+容联（china）

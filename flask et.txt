@@ -1,0 +1,95 @@
+1. urllib2.Request访问https时出现错误：URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:581)>
+原因:
+python 2.7以前，当标准的http客户端（采用 urllib , urllib2 , http , 和 httplib模块）请求https时，在ssl握手期间默认不会检查服务器证书的合法性，也不会验证所提供证书上的Common Name (或Subject Alternate Name) 是否与请求的主机匹配。这样会导致中间人攻击。
+在Python 2.7，Python 3.4和Python 3.5，为了防止这类问题，默认会采用服务端证书的验证，如果一些证书验证没有通过，在握手阶段就会出现上述错误。
+解决：
+这里直接替换掉默认的上下文，关掉对证书的验证。
+a. 改变全局请求上下文
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+b. 改变单连接的上下文
+import ssl
+# This restores the same behavior as before.
+context = ssl._create_unverified_context()
+urllib.urlopen("https://no-valid-cert", context=context)
+
+参考：
+https://stackoverflow.com/questions/27835619/ssl-certificate-verify-failed-error
+https://www.python.org/dev/peps/pep-0476/
+
+
+2. urllib2访问et网站时，返回的数据为乱码，打不开。
+原因：请求头部中含有"Accept-Encoding": "gzip, deflate, sdch, br"，而返回的响应中含有“Content-Encoding: gzip”，所以返回的数据是gzip压缩的。
+Accept-Encoding：HTTP Header中Accept-Encoding 是浏览器发给服务器,声明浏览器支持的编码类型
+解决：
+1.查找gzip库，发下如下：
+This module provides a simple interface to compress and decompress files just like the GNU programs gzip and gunzip would.
+The data compression is provided by the zlib module.
+gzip是用来压缩和解压缩文件的，而数据的解压缩有zlib模块提供。
+2. 通过zlip解压缩出错：
+res_body_raw = zlib.decompress(res_body); 
+error: Error -3 while decompressing data: incorrect header check
+因为gzip和zlib的头，不太一样，导致此处用zlib去解析返回的gzip的数据出错。
+3. 把上步骤中解压缩语句变为：
+res_body_raw = zlib.decompress(res_body, 16+zlib.MAX_WBITS);
+就可正确运行。
+4. 我们在解压缩之前最好先判断响应中有无“Content-Encoding: gzip”：
+        if ("content-encoding" in res_header.keys()) and ("gzip" in res_header["Content-Encoding"]):
+            res_body_raw = zlib.decompress(res_body, 16+zlib.MAX_WBITS)
+注意这里的一个坑：res_header.keys()所有key变为小写了，而不是“Content-Encoding”
+参考：
+http://www.crifan.com/compress_html_in_urllib2_open_then_decompress_returned_gzip_data_in_python/
+
+
+3.python下载文件方法
+
+import urllib
+import urllib2
+import requests
+
+# Test URL
+url = "http://rfunction.com/code/1202/120202.R"
+
+# 1. Using urllib module
+print "Begin download with urllib"
+urllib.urlretrieve(url, "code1.R")
+
+# 2. Using urllib2 module
+print "Begin download with urllib2"
+f = urlllib2.urlopen(url)
+with open("code2.R", "wb") as code :
+    code.write(f.read())
+
+# 3. Using requests
+print "Begin download with requests"
+r = requests.get(url)
+with open("code3.R", "wb") as code :
+    code.write(r.content)
+	
+
+4. os.path
+os.path.join函数可以把目录名和文件名连接起来（不管目录后带没带/或\\）
+>>> os.path.join("/home/", "ff.txt")
+'/home/ff.txt'
+>>> os.path.join("/home", "ff.txt") 
+'/home/ff.txt'
+os.path.split函数可以把一个文件的绝对路径切分为目录的路径和文件名
+>>> os.path.split("/home/ff.txt")
+('/home', 'ff.txt')
+os.path.splitex函数可以把文件名的后缀和后缀前的文件名切分开
+>>> os.path.splitext("/home/ff.txt")
+('/home/ff', '.txt')
+>>> os.path.splitext("ff.txt")      
+('ff', '.txt')
+os.listdir来遍历一个目录, 使用os.path.isfile和os.path.isdir来判断一个路径是目录还是文件
+
+5. 判断文件是否相同
+python中提供了很便捷的方法来判断两个文件的内容是否相同，只要两行代码： 
+import filecmp 
+filecmp.cmp(r'e:\1.txt',r'e:\2.txt')
+如果两个文件相同，会输出True，否则会输出false
+
+
+6. 两个文件的差异情况
+diff = difflib.unified_diff(a, b, n=0)
+n表示显示差异的的上下文行数，默认是3行，上例中只显示差异，不上下文。

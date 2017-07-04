@@ -1,0 +1,43 @@
+1. 采用PhantomJS时，能够查找到输入的文本框，但是提示错误：Element is not currently interactable
+解决：大部分原因是串口太小，可以添加如下语句：driver.set_window_size(1920, 1080)
+2. 采用PhantomJS时，截图功能如下：driver.save_screenshot('screenshot.png')
+3. Ghost.py使用 http://blog.csdn.net/a1368783069/article/details/50444739
+4. PhantomJS下载地址：http://phantomjs.org/download.html
+windows下放到Python27\Scripts目录下就可以正常使用了
+5. PhantomJS，这是一个基于webkit的没有界面的浏览器，也就是它可以像浏览器解析网页，功能非常强大。
+6. selenium，这是一个web的自动测试工具，可以模拟人的操作。支持市面上几乎所有的主流浏览器，同时也支持PhantomJS这种无界面浏览器。
+	下载：http://www.seleniumhq.org/docs/index.jsp
+	python文档：http://selenium-python.readthedocs.io/index.html
+7. 采用chrome浏览器时：
+今天在使用selenium +webdriver打开chrome，代码如下：
+
+from selenium import webdriver
+
+driver=webdriver.Chrome()
+driver.get("www.google.com")
+
+运行代码后会出现如下错误：
+
+Traceback (most recent call last):
+  File "/Selenium_Python/selenium_python/forward_url.py", line 7, in <module>
+    driver=webdriver.Chrome()
+  File "/usr/local/lib/python2.7/dist-packages/selenium/webdriver/chrome/webdriver.py", line 60, in __init__
+    self.service.start()
+  File "/usr/local/lib/python2.7/dist-packages/selenium/webdriver/chrome/service.py", line 68, in start
+    and read up at http://code.google.com/p/selenium/wiki/ChromeDriver")
+selenium.common.exceptions.WebDriverException: Message: 'ChromeDriver executable needs to be available in the path.                 Please download from http://code.google.com/p/selenium/downloads/list                and read up at http://code.google.com/p/selenium/wiki/ChromeDriver'
+
+解决：
+下载https://sites.google.com/a/chromium.org/chromedriver/ （需要选择自己chrome浏览器对应的版本）
+windows下放到Python27\Scripts目录下就可以正常使用了
+
+8. 对于https，driver=webdriver.PhantomJS()会返回空web page
+解决：driver = webdriver.PhantomJS(service_args=['--ignore-ssl-errors=true', '--ssl-protocol=TLSv1'])
+参考：http://stackoverflow.com/questions/29463603/phantomjs-returning-empty-web-page-python-selenium
+
+
+	
+
+参考：
+Python爬虫利器四之PhantomJS的用法 http://cuiqingcai.com/2577.html
+Python爬虫利器五之Selenium的用法 http://cuiqingcai.com/2599.html
