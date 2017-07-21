@@ -1,0 +1,37 @@
+error1：
+symbol SSLv2_method, version OPENSSL_1.0.0 not defined in file libssl.so.1.0.0
+解决：
+apt-get update
+apt-get install openssl
+或者
+apt-get install -y libssl-dev
+
+error2：
+pip install xxx
+Downloading/unpacking pymodbus
+Cleaning up...
+Exception:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/pip/basecommand.py", line 122, in main
+    status = self.run(options, args)
+  File "/usr/lib/python2.7/dist-packages/pip/commands/install.py", line 290, in run
+    requirement_set.prepare_files(finder, force_root_egg_info=self.bundle, bundle=self.bundle)
+  File "/usr/lib/python2.7/dist-packages/pip/req.py", line 1178, in prepare_files
+    url = finder.find_requirement(req_to_install, upgrade=self.upgrade)
+  File "/usr/lib/python2.7/dist-packages/pip/index.py", line 194, in find_requirement
+    page = self._get_page(main_index_url, req)
+  File "/usr/lib/python2.7/dist-packages/pip/index.py", line 568, in _get_page
+    session=self.session,
+  File "/usr/lib/python2.7/dist-packages/pip/index.py", line 694, in get_page
+    req, link, "connection error: %s" % exc, url,
+TypeError: __str__ returned non-string (type Error)
+
+解决：
+可能是由于虚拟机时间设置不准确，导致证书失效所致。
+检查时间,采用ntp服务更新：
+ntpdate ntp.sjtu.edu.cn
+如果没有，可以采用date命令修改系统时间：
+date -s "20170720 14:50:00"
+
+参考：
+https://raspberrypi.stackexchange.com/questions/51154/broken-python-pip-install-what-is-the-correct-way-to-fix
